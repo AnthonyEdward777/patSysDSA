@@ -10,7 +10,8 @@ class ScrollableListApp(ctk.CTk):
         self.title("Scrollable List Viewer")
         self.geometry("350x520") # Increased height to fit the button
 
-        self.data_list = [3, 5, 40, 2, 1, 50, 10, 80]
+        self.patientList = LinkedList()
+        self.patientList.admitPatient("Eyad", 20, "eyad.mahmoud24d@eslsca.edu.eg", "Back Pain", 2, 5)
         self.is_sorted = False # Track the current sort state
 
         # --- 1. Create the Sort Button ---
@@ -42,7 +43,7 @@ class ScrollableListApp(ctk.CTk):
         
         self.scroll_frame.columnconfigure(0, weight=1)
 
-        for index, item_value in enumerate(self.data_list):
+        for index, item_value in enumerate(self.patientList):
             
             item_label = ctk.CTkLabel(
                 self.scroll_frame, 
@@ -59,16 +60,16 @@ class ScrollableListApp(ctk.CTk):
         self.clear_widgets()
         
         if not self.is_sorted:
-            self.data_list.sort()
+            self.patientList.sort()
             self.sort_button.configure(text="Sort List (Descending)")
             self.is_sorted = True
         else:
-            self.data_list.sort(reverse=True)
+            self.patientList.sort(reverse=True)
             self.sort_button.configure(text="Sort List (Ascending)")
             self.is_sorted = False
             
         self.create_list_widgets()
-        print(f"List sorted. New order: {self.data_list}")
+        print(f"List sorted. New order: {self.patientList}")
 
 
 if __name__ == "__main__":
