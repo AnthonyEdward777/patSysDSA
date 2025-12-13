@@ -1,7 +1,7 @@
-from patient import Patient
+from Patient import Patient
 from Node import Node
 
-class LinkedList:
+class PatientLinkedList:
     def __init__(self):
         self.head = None
         self.length = 0
@@ -51,6 +51,7 @@ class LinkedList:
             current = current.next
 
     def displayRecords(self):
+        """Betrag3 Python list"""
         current = self.head
         records = []
 
@@ -78,3 +79,40 @@ class LinkedList:
 
         return None
     
+    def sort_by_severity(self):
+        if self.head is None or self.head.next is None:
+            return
+        
+        swapped = True
+
+        while swapped:
+            swapped = False
+            current = self.head
+
+
+            while current.next is not None:
+                if current.data.getSeverity() > current.next.data.getSeverity():
+
+                    current.data, current.next.data = current.next.data, current.data
+                    swapped = True
+            
+                current = current.next
+
+    def sort_by_severity_desc(self):
+        if self.head is None or self.head.next is None:
+            return
+        
+        
+        swapped = True
+
+        while swapped:
+            swapped = False
+            current = self.head
+
+            while current.next is not None:
+
+                if current.data.getSeverity() < current.next.data.getSeverity():
+                    current.data, current.next.data = current.next.data, current.data
+                    swapped = True
+            
+                current = current.next
