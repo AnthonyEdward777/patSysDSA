@@ -1,5 +1,6 @@
 from patient import Patient
 from Node import Node
+from sorting import sort_by_severity
 
 class LinkedList:
     def __init__(self, head, length):
@@ -77,3 +78,4 @@ class LinkedList:
             current = current.next
 
         return None
+    
