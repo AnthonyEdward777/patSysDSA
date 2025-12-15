@@ -7,6 +7,17 @@ class Patient:
         self.severity_score = 0
         self.room_number = 0
 
+    def getName(self):
+        return self.name
+    def setName(self, name):
+        self.name = name
+
+    def getAge(self):
+        return self.name
+    
+    def setAge(self, age):
+        self.age = age
+
     def setContact(self, contact):
         self.contactEmail = contact
 

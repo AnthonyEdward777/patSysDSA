@@ -1,4 +1,4 @@
-from patient import Patient
+from Patient import Patient
 from Node import Node
 
 class PatientLinkedList:

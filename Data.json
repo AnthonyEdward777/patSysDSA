@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Eyad",
+        "age": 19,
+        "email": "eyad@gmail.com",
+        "history": "Knee pain",
+        "severity": 8,
+        "room": 103
+    },
+    {
+        "name": "Hamdy Elrefay",
+        "age": 42,
+        "email": "Elrefay@outlook.com",
+        "history": "Back Pain",
+        "severity": 5,
+        "room": 103
+    },
+    {
+        "name": "Fathy Ahmed",
+        "age": 42,
+        "email": "Fathy@yahoo.com",
+        "history": "Multiple Trauma",
+        "severity": 9,
+        "room": 102
+    },
+    {
+        "name": "Mahmoud Eldeeb",
+        "age": 35,
+        "email": "Mahmoud@gmail.com",
+        "history": "Flu",
+        "severity": 3,
+        "room": 101
+    }
+]

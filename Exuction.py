@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from PatientLinkedList import PatientLinkedList
 from tkinter import messagebox
+import json
 
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
@@ -103,9 +104,10 @@ class HospitalApp(ctk.CTk):
         return entry
 
     def populate_demo_data(self):
-        self.hospital.admitPatient("Mahmoud Eldeeb", 35, "Mahmoud@gmail.com", "Flu", 3, 101)
-        self.hospital.admitPatient("Fathy Ahmed", 42, "Fathy@yahoo.com", "Multiple Trauma", 9, 102)
-        self.hospital.admitPatient("Hamdy Elrefay", 30, "Elrefay@outlook.com", "Back Pain", 5, 103)
+        with open('Data.json', 'r') as file:
+            data = json.load(file)
+        for patient in data:
+            self.hospital.admitPatient(patient["name"], patient["age"], patient["email"],patient["history"], patient["severity"], patient["room"])
         self.update_ui()
 
     def admit_patient_event(self):
@@ -134,12 +136,29 @@ class HospitalApp(ctk.CTk):
             room = int(room_str) if room_str else 0
 
             self.hospital.admitPatient(name, age, contact, history, severity, room)
-
+            self.saveToJSON()
             self.clear_inputs()
             self.update_ui()
 
         except Exception as e:
             messagebox.showerror("Unexpected Error", str(e))
+
+    def saveToJSON(self):
+        print("Bensaive Now")
+        patientList = self.hospital.displayRecords()
+        data = []
+        for patient in patientList:
+            data.append({
+                "name":patient["Name"],
+                "age":patient["Age"],
+                "email":patient["Contact"],
+                "history":patient["Medical History"],
+                "severity":patient["Severity Score"],
+                "room":patient["Room Number"]
+            })
+
+        with open("Data.json", 'w') as file:
+            json.dump(data, file, indent=4)
 
     def sort_patients_event(self):
         
