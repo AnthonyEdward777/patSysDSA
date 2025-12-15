@@ -2,9 +2,9 @@ from patient import Patient
 from Node import Node
 
 class LinkedList:
-    def __init__(self, head, length):
-        self.head = head
-        self.length = length
+    def __init__(self):
+        self.head = None
+        self.length = 0
 
     def admitPatient(self, name, age, contact, history, severity, room):
         newNode = Node(name, age)
