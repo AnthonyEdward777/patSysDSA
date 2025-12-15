@@ -1,5 +1,5 @@
 import customtkinter as ctk
-
+from PatientLinkedList import PatientLinkedList
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
 
@@ -10,7 +10,11 @@ class ScrollableListApp(ctk.CTk):
         self.title("Scrollable List Viewer")
         self.geometry("350x520") # Increased height to fit the button
 
-        self.data_list = [3, 5, 40, 2, 1, 50, 10, 80]
+        self.patientList = PatientLinkedList()
+        self.patientList.admitPatient("Eyad", 20, "eyad.mahmoud24d@eslsca.edu.eg", "Back Pain", 2, 5)
+        self.patientList.admitPatient("Anthony", 20, "anthony.edward24d@eslsca.edu.eg", "Nausea", 3, 4)
+        self.patientList.admitPatient("Saif", 20, "said.abdelkader24d@eslsca.edu.eg", "Nausea", 6, 4)
+        self.patientList.admitPatient("Mohamed", 20, "mohamed.kilany24d@eslsca.edu.eg", "Nausea", 1, 4)
         self.is_sorted = False # Track the current sort state
 
         # --- 1. Create the Sort Button ---
@@ -42,11 +46,11 @@ class ScrollableListApp(ctk.CTk):
         
         self.scroll_frame.columnconfigure(0, weight=1)
 
-        for index, item_value in enumerate(self.data_list):
-            
+        for index, item_value in enumerate(self.patientList.displayRecords()):
+            textToDisplay = item_value["Name"]," Age:", item_value["Age"], "Severity:", item_value["Severity Score"]
             item_label = ctk.CTkLabel(
                 self.scroll_frame, 
-                text=str(item_value), # Convert integer to string for display
+                text=str(textToDisplay),
                 font=("Roboto", 14),
                 anchor="w"
             )
@@ -59,16 +63,16 @@ class ScrollableListApp(ctk.CTk):
         self.clear_widgets()
         
         if not self.is_sorted:
-            self.data_list.sort()
+            self.patientList.sort_by_severity()
             self.sort_button.configure(text="Sort List (Descending)")
             self.is_sorted = True
         else:
-            self.data_list.sort(reverse=True)
+            self.patientList.sort_by_severity_desc()
             self.sort_button.configure(text="Sort List (Ascending)")
             self.is_sorted = False
             
         self.create_list_widgets()
-        print(f"List sorted. New order: {self.data_list}")
+        print(f"List sorted. New order: {self.patientList}")
 
 
 if __name__ == "__main__":
