@@ -13,7 +13,7 @@ class HospitalApp(ctk.CTk):
 
         self.title("Smart Hospital System")
         self.geometry("1100x700")
-
+        self.sortingDirection = False
         
         self.hospital = PatientLinkedList()
 
@@ -62,7 +62,19 @@ class HospitalApp(ctk.CTk):
         )
         self.btn_sort.grid(row=8, column=0, padx=20, pady=10, sticky="ew")
 
-        
+        self.isSearch = False
+        self.searchBar = self.create_input("Search by name", 9)
+        self.searchButton = ctk.CTkButton(
+            self.sidebar,
+            text="Search",
+            command=self.searchForPatient,
+            fg_color="#7d7d7d",
+            hover_color="#171616",
+            height=40,
+            font=ctk.CTkFont(size=15, weight="bold")
+        )
+        self.searchButton.grid(row=10, column=0, padx=20, pady=0, sticky="ew")
+
         self.main_area = ctk.CTkFrame(self, fg_color="transparent")
         self.main_area.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
         self.main_area.grid_rowconfigure(1, weight=1)
@@ -94,7 +106,7 @@ class HospitalApp(ctk.CTk):
         )
         self.scroll_frame.grid(row=1, column=0, sticky="nsew")
         self.scroll_frame.grid_columnconfigure(0, weight=1)
-
+        
         
         self.populate_demo_data()
 
@@ -161,10 +173,13 @@ class HospitalApp(ctk.CTk):
             json.dump(data, file, indent=4)
 
     def sort_patients_event(self):
-        
-        self.hospital.sort_by_severity_desc()
+        if self.sortingDirection == True:
+            self.hospital.sort_by_severity_desc()
+            self.sortingDirection = False
+        else:
+            self.hospital.sort_by_severity()
+            self.sortingDirection = True
         self.update_ui()
-        messagebox.showinfo("Success", "Patients sorted by severity (High → Low) successfully")
 
     def clear_inputs(self):
         self.entry_name.delete(0, 'end')
@@ -174,11 +189,25 @@ class HospitalApp(ctk.CTk):
         self.entry_room.delete(0, 'end')
         self.entry_severity.delete(0, 'end')
 
-    def update_ui(self):
+    def searchForPatient(self):
+        searchWord = self.searchBar.get()
+        if self.isSearch == True:
+            self.isSearch = False
+            messagebox.showinfo("Cancel", "Cancelled search")
+
+        else:
+            self.isSearch = True
+        
+        self.update_ui(searchWord)
+        
+    def update_ui(self, searchWord=None):
         for widget in self.scroll_frame.winfo_children():
             widget.destroy()
 
-        records = self.hospital.displayRecords()
+        if self.isSearch == True:
+            records = self.hospital.searchPatient(name=searchWord)
+        else:
+            records = self.hospital.displayRecords()
         self.lbl_count.configure(text=f"Total: {len(records)}")
 
         for idx, patient in enumerate(records):

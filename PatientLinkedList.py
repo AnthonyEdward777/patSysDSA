@@ -71,6 +71,25 @@ class PatientLinkedList:
 
     def searchPatient(self, name):
         current = self.head
+        records = []
+
+        while current is not None:
+            if name.lower() in current.data.getName().lower():
+                patient_info = {
+                    "Name": current.data.name,
+                    "Age": current.data.age,
+                    "Contact": current.data.getContact(),
+                    "Medical History": current.data.getHistory(),
+                    "Severity Score": current.data.getSeverity(),
+                    "Room Number": current.data.getRoom()
+                }
+                records.append(patient_info)
+            current = current.next
+
+        return records
+
+    def locatePatient(self, name):
+        current = self.head
 
         while current is not None:
             if current.data.name == name:
