@@ -121,7 +121,13 @@ class HospitalApp(ctk.CTk):
         for patient in data:
             self.hospital.admitPatient(patient["name"], patient["age"], patient["email"],patient["history"], patient["severity"], patient["room"])
         self.update_ui()
-
+    
+    def removePatient(self, name):
+        self.hospital.dischargePatient(name)
+        self.saveToJSON()
+        self.clear_inputs()
+        self.update_ui()
+        
     def admit_patient_event(self):
         try:
             name = self.entry_name.get().strip()
